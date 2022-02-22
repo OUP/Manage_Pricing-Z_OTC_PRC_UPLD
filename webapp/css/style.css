@@ -1,0 +1,15 @@
+/* Enter your custom styles here */
+
+.custom-overflow-toolbar {
+  border-bottom: none !important;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.worklist-table-container .sapUiTableExt {
+  margin-bottom: 0.5rem;
+}
+
+.worklist-table-container .sapUiTableExt .sapMTBStandard {
+  border-bottom: none !important;
+}

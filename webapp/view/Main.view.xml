@@ -1,0 +1,130 @@
+<!--
+
+    Copyright (C) OUP company. All rights reserved.
+
+-->
+<mvc:View 
+    controllerName="oup.otc.pricingupload.controller.Main"
+    xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:u="sap.ui.unified"
+    xmlns:f="sap.f"
+    displayBlock="true" 
+    xmlns="sap.m">
+
+    <Shell id="shell" appWidthLimited="false">
+        <App id="app">
+            <pages> 
+                <f:DynamicPage 
+                    id="dynamicPage"
+                    showFooter="{= ${oViewModel>/action} !== 'Report' }">
+                    <!-- DynamicPage Title -->
+                    <f:title>
+                        <f:DynamicPageTitle>
+                            <f:heading>
+                                <Title text="{i18n>appTitle}" />
+                            </f:heading>
+                            <f:snappedContent>
+                                <Text id="statusText" />
+                            </f:snappedContent>
+                        </f:DynamicPageTitle>
+                    </f:title>
+                    
+                    <!-- DynamicPage Header -->
+                    <f:header>
+                        <f:DynamicPageHeader>
+                            <f:content>
+
+                                <smartFilterBar:SmartFilterBar 
+                                    id="smartFilterBar"
+                                    useToolbar="false" 
+                                    entitySet="ZOTC_I_PRICINGSEL"
+                                    persistencyKey="ZOTC_I_PRICINGSEL"
+                                    assignedFiltersChanged="onAssignedFiltersChanged"
+                                    initialized=".onFilterBarInitialized"
+                                    search=".onFilterBarGoPress">
+
+                                    <!-- layout data used to make the table growing but the filter bar fixed -->
+                                    <smartFilterBar:layoutData>
+                                        <FlexItemData shrinkFactor="0"/>
+                                    </smartFilterBar:layoutData>
+                                </smartFilterBar:SmartFilterBar>
+
+                            </f:content>
+                        </f:DynamicPageHeader>
+                    </f:header>
+
+                    <!-- DynamicPage Content -->
+                    <f:content>
+                        <VBox>
+                           <OverflowToolbar class="custom-overflow-toolbar">
+                                <u:FileUploader 
+                                    id="fileUploader" 
+                                    name="myFileUpload" 
+                                    buttonOnly="false" 
+                                    change=".onFileChange" 
+                                    fileAllowed=".onFileAllowed" 
+                                    fileType="xls,xlsx,csv" 
+                                    icon="sap-icon://open-folder" 
+                                    sendXHR="true" 
+                                    tooltip="{i18n>fileToolTip}" 
+                                    uploadAborted="handleUploadAborted" 
+                                    uploadComplete="onUploadComplete" 
+                                    uploadOnChange="false" 
+                                    useMultipart="false" 
+                                    width="400px" 
+                                    buttonText="{i18n>btnFileUploadText}" 
+                                    typeMissmatch="onTypeMissmatch"
+                                    valueState="{oViewModel>/fileUploadVS}"
+                                    valueStateText="{i18n>fileUploadVST}"
+                                    enabled="{oViewModel>/enableUpload}">
+                                </u:FileUploader>
+
+                                <ToolbarSpacer />
+                                <!-- <Button
+                                    text="Download Report"
+                                    press=".onDownloadReportPress" /> -->
+                                <Button
+                                    text="Download Template"
+                                    press=".onDownloadTemplatePress" />
+                                <Button
+                                    text="Upload"
+                                    type="Emphasized"
+                                    press=".onUploadPress" />
+                            </OverflowToolbar>
+
+                            <MessageStrip 
+                                type="{oViewModel>/messageType}" 
+                                text="{oViewModel>/messageText}" 
+                                visible="{oViewModel>/messageVisible}" 
+                                class="sapUiSmallMargin">
+                            </MessageStrip>
+                        
+
+                            <!-- dynamic table -->
+                            <VBox id="idWorkListTableContainer" class="worklist-table-container" />
+                        </VBox>
+                    </f:content>
+
+                    <!-- DynamicPage Footer -->
+                    <f:footer>
+                        <OverflowToolbar>
+                            <ToolbarSpacer/>
+                            <Button
+                                id="idBtnTest" 
+                                enabled="{oViewModel>/btnTestImport}"
+                                press=".onTestImportPress"
+                                text="{i18n>testImpSrcFileBtn}" />
+                            <Button
+                                id="idBtnImport"
+                                enabled="{oViewModel>/btnImport}"
+                                press=".onImportPress"
+                                text="{i18n>impSrcFileBtn}" />
+                        </OverflowToolbar>
+                    </f:footer>
+                </f:DynamicPage>
+            </pages>
+        </App>
+    </Shell>
+</mvc:View>

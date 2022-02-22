@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:Reference Uri="https://s4dbasdev130:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://s4dbasdev130:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://s4dbasdev130:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://s4dbasdev130:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="Aggregation"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://s4dbasdev130:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+    </edmx:Reference>
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZOTC_PRICING_UPLOAD_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="TableHeader" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ConditionType"/>
+                    <PropertyRef Name="TableName"/>
+                </Key>
+                <Property Name="ConditionType" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TableName" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="FieldName" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="FieldText" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="TableItemSet" Relationship="ZOTC_PRICING_UPLOAD_SRV.toItem" FromRole="FromRole_toItem" ToRole="ToRole_toItem"/>
+                <NavigationProperty Name="TableItem" Relationship="ZOTC_PRICING_UPLOAD_SRV.toHeader" FromRole="ToRole_toHeader" ToRole="FromRole_toHeader"/>
+            </EntityType>
+            <EntityType Name="TableItem" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ConditionType"/>
+                    <PropertyRef Name="TableName"/>
+                </Key>
+                <Property Name="ConditionType" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TableName" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Field1" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Field2" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Field3" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Field4" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Field5" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Field6" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Field7" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Field8" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Field9" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Field10" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Field11" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Field12" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Field13" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Field14" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Field15" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Field16" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Field17" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Field18" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Field19" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Field20" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="TableHeader" Relationship="ZOTC_PRICING_UPLOAD_SRV.toItem" FromRole="ToRole_toItem" ToRole="FromRole_toItem"/>
+                <NavigationProperty Name="TableHeaderSet" Relationship="ZOTC_PRICING_UPLOAD_SRV.toHeader" FromRole="FromRole_toHeader" ToRole="ToRole_toHeader"/>
+            </EntityType>
+            <EntityType Name="ZOTC_I_KEYCOMBVHType" sap:label="Condition key combination value help" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ConditionType"/>
+                    <PropertyRef Name="AccessSequence"/>
+                    <PropertyRef Name="TableName"/>
+                </Key>
+                <Property Name="ConditionType" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="ConditionType" sap:quickinfo="Condition type"/>
+                <Property Name="AccessSequence" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="AccessSequence" sap:quickinfo="Access Sequence"/>
+                <Property Name="TableName" Type="Edm.String" Nullable="false" MaxLength="4" sap:label="TableName"/>
+                <Property Name="ConditionText" Type="Edm.String" MaxLength="20" sap:label="ConditionText" sap:quickinfo="Name"/>
+                <Property Name="ddtext" Type="Edm.String" MaxLength="60" sap:label="KeyCombination" sap:quickinfo="Short Description of Repository Objects"/>
+            </EntityType>
+            <Association Name="toItem" sap:content-version="1">
+                <End Type="ZOTC_PRICING_UPLOAD_SRV.TableHeader" Multiplicity="1" Role="FromRole_toItem"/>
+                <End Type="ZOTC_PRICING_UPLOAD_SRV.TableItem" Multiplicity="*" Role="ToRole_toItem"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_toItem">
+                        <PropertyRef Name="TableName"/>
+                        <PropertyRef Name="ConditionType"/>
+                    </Principal>
+                    <Dependent Role="ToRole_toItem">
+                        <PropertyRef Name="TableName"/>
+                        <PropertyRef Name="ConditionType"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="toHeader" sap:content-version="1">
+                <End Type="ZOTC_PRICING_UPLOAD_SRV.TableItem" Multiplicity="1" Role="FromRole_toHeader"/>
+                <End Type="ZOTC_PRICING_UPLOAD_SRV.TableHeader" Multiplicity="*" Role="ToRole_toHeader"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_toHeader">
+                        <PropertyRef Name="TableName"/>
+                        <PropertyRef Name="ConditionType"/>
+                    </Principal>
+                    <Dependent Role="ToRole_toHeader">
+                        <PropertyRef Name="TableName"/>
+                        <PropertyRef Name="ConditionType"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="ZOTC_PRICING_UPLOAD_SRV_Entities" m:IsDefaultEntityContainer="true" sap:message-scope-supported="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="ZOTC_I_KEYCOMBVH" EntityType="ZOTC_PRICING_UPLOAD_SRV.ZOTC_I_KEYCOMBVHType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+                <EntitySet Name="TableHeaderSet" EntityType="ZOTC_PRICING_UPLOAD_SRV.TableHeader" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="TableItemSet" EntityType="ZOTC_PRICING_UPLOAD_SRV.TableItem" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <AssociationSet Name="toItemSet" Association="ZOTC_PRICING_UPLOAD_SRV.toItem" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="TableHeaderSet" Role="FromRole_toItem"/>
+                    <End EntitySet="TableItemSet" Role="ToRole_toItem"/>
+                </AssociationSet>
+                <AssociationSet Name="toHeaderSet" Association="ZOTC_PRICING_UPLOAD_SRV.toHeader" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="TableItemSet" Role="FromRole_toHeader"/>
+                    <End EntitySet="TableHeaderSet" Role="ToRole_toHeader"/>
+                </AssociationSet>
+            </EntityContainer>
+            <Annotations Target="ZOTC_PRICING_UPLOAD_SRV.ZOTC_PRICING_UPLOAD_SRV_Entities" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Aggregation.ApplySupported">
+                    <Record>
+                        <PropertyValue Property="Transformations">
+                            <Collection>
+                                <String>aggregate</String>
+                                <String>groupby</String>
+                                <String>filter</String>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Rollup" EnumMember="None"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <atom:link rel="self" href="https://s4dbasdev130:443/sap/opu/odata/sap/ZOTC_PRICING_UPLOAD_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="https://s4dbasdev130:443/sap/opu/odata/sap/ZOTC_PRICING_UPLOAD_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
