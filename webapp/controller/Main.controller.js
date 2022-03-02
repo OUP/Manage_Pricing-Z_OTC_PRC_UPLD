@@ -618,6 +618,7 @@ sap.ui.define(
                       break;
                     case "WARNING":
                       sResponse = "Warning";
+                      break;
                     default:
                       sResponse = "None";
                   }
@@ -771,10 +772,11 @@ sap.ui.define(
               fnErrorMsg();
             } else {
               sMessageType = "Success";
-
-              var oDownloadBtn = sap.ui.getCore().byId("idDownloadResultsBtn");
-              oDownloadBtn.setEnabled(true);
             }
+            
+            // enable download button
+            var oDownloadBtn = sap.ui.getCore().byId("idDownloadResultsBtn");
+            oDownloadBtn.setEnabled(true);
 
             bMessageVisible = sAction !== "Report";
 
