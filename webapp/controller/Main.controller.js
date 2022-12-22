@@ -7,6 +7,7 @@ sap.ui.define(
     "sap/ui/table/RowSettings",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
+    "sap/ui/export/Spreadsheet",
     "sap/m/Text",
     "sap/m/MessageToast",
     "sap/m/OverflowToolbar",
@@ -25,6 +26,7 @@ sap.ui.define(
     RowSettings,
     Filter,
     FilterOperator,
+    Spreadsheet,
     Text,
     MessageToast,
     OverflowToolbar,
@@ -535,6 +537,7 @@ sap.ui.define(
             let sMessageType = "None";
             let sMessageText = "Test";
             let bMessageVisible = false;
+            let aColumnConfig = [];
 
             //Overflow Toolbar
             var oOverflowToolbar = new OverflowToolbar({
@@ -547,30 +550,49 @@ sap.ui.define(
                   icon: "sap-icon://excel-attachment",
                   enabled: false,
                   press: () => {
-                    const hexToBase64 = (hexStr) => {
-                      return btoa(
-                        [...hexStr].reduce(
-                          (acc, _, i) =>
-                            (acc += !((i - 1) & 1)
-                              ? String.fromCharCode(
-                                  parseInt(hexStr.substring(i - 1, i + 1), 16)
-                                )
-                              : ""),
-                          ""
-                        )
-                      );
+                    // const hexToBase64 = (hexStr) => {
+                    //   return btoa(
+                    //     [...hexStr].reduce(
+                    //       (acc, _, i) =>
+                    //         (acc += !((i - 1) & 1)
+                    //           ? String.fromCharCode(
+                    //               parseInt(hexStr.substring(i - 1, i + 1), 16)
+                    //             )
+                    //           : ""),
+                    //       ""
+                    //     )
+                    //   );
+                    // };
+
+                    // const sBase64 = hexToBase64(oData.BinaryString);
+                    // const blob = atob(sBase64);
+                    // const link = document.createElement("a");
+                    // if (link.download !== undefined) {
+                    //   link.href =
+                    //     "data:text/csv;charset=utf-8,sep=|\n" + encodeURI(blob);
+                    //   link.target = "_blank";
+                    //   link.download = `${_oConditionTypeData.ConditionType}_${_oConditionTypeData.TableName}.csv`;
+                    //   link.click();
+                    // }
+
+                    let oSettings, oSheet, dataSource;
+
+                    // data source for the excel
+                    dataSource = aItemDataFields;
+
+                    oSettings = {
+                      workbook: { columns: aColumnConfig },
+                      dataSource,
+                      fileName: `${_oConditionTypeData.ConditionType}_${_oConditionTypeData.TableName}`
                     };
 
-                    const sBase64 = hexToBase64(oData.BinaryString);
-                    const blob = atob(sBase64);
-                    const link = document.createElement("a");
-                    if (link.download !== undefined) {
-                      link.href =
-                        "data:text/csv;charset=utf-8,sep=|\n" + encodeURI(blob);
-                      link.target = "_blank";
-                      link.download = `${_oConditionTypeData.ConditionType}_${_oConditionTypeData.TableName}.csv`;
-                      link.click();
-                    }
+                    oSheet = new Spreadsheet(oSettings);
+                    oSheet
+                      .build()
+                      .then(() => {
+                        MessageToast.show("Spreadsheet export has finished");
+                      })
+                      .finally(oSheet.destroy());
                   },
                 }),
               ],
@@ -654,6 +676,12 @@ sap.ui.define(
                   //     oData.label.toUpperCase() === "COMMENTS"
                   //       ? "45rem"
                   //       : "7.5rem",
+                });
+
+                /// add column in excel
+                aColumnConfig.push({
+                  label: oData.label,
+                  property: oData.property,
                 });
 
                 // add column to table
@@ -773,7 +801,7 @@ sap.ui.define(
             } else {
               sMessageType = "Success";
             }
-            
+
             // enable download button
             var oDownloadBtn = sap.ui.getCore().byId("idDownloadResultsBtn");
             oDownloadBtn.setEnabled(true);

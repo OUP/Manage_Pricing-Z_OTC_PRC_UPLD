@@ -57,7 +57,7 @@
 
                     <!-- DynamicPage Content -->
                     <f:content>
-                        <VBox>
+                        <VBox fitContainer="true">
                            <OverflowToolbar class="custom-overflow-toolbar">
                                 <u:FileUploader 
                                     id="fileUploader" 
@@ -88,10 +88,10 @@
                                 <Button
                                     text="Download Template"
                                     press=".onDownloadTemplatePress" />
-                                <Button
+                                <!-- <Button
                                     text="Upload"
                                     type="Emphasized"
-                                    press=".onUploadPress" />
+                                    press=".onUploadPress" /> -->
                             </OverflowToolbar>
 
                             <MessageStrip 
@@ -103,7 +103,17 @@
                         
 
                             <!-- dynamic table -->
-                            <VBox id="idWorkListTableContainer" class="worklist-table-container" />
+                            <VBox id="idWorkListTableContainer" class="worklist-table-container">
+                                <!-- layout data used to make the table growing but the filter bar fixed -->
+                                <layoutData>
+                                    <FlexItemData growFactor="1" baseSize="0%"/>
+                                </layoutData>
+                            </VBox>
+
+                            <!-- layout data used to make the table growing but the filter bar fixed -->
+                            <layoutData>
+                                <FlexItemData growFactor="1" baseSize="0%"/>
+                            </layoutData>
                         </VBox>
                     </f:content>
 

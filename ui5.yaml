@@ -15,7 +15,7 @@ server:
             - /resources
             - /test-resources
           url: https://ui5.sap.com
-          version: 1.71.44 # The UI5 version, for instance, 1.78.1. Empty string means latest version
+          version: 1.71.53 # The UI5 version, for instance, 1.78.1. Empty string means latest version
         backend:
           - path: /sap
             url: http://s4dbasdev130:443
