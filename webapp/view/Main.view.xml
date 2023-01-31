@@ -88,10 +88,10 @@
                                 <Button
                                     text="Download Template"
                                     press=".onDownloadTemplatePress" />
-                                <!-- <Button
+                                <Button
                                     text="Upload"
                                     type="Emphasized"
-                                    press=".onUploadPress" /> -->
+                                    press=".onUploadPress" />
                             </OverflowToolbar>
 
                             <MessageStrip 
