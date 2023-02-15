@@ -8,6 +8,7 @@ sap.ui.define(
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     "sap/ui/export/Spreadsheet",
+    "sap/ui/core/Fragment",
     "sap/m/Text",
     "sap/m/MessageToast",
     "sap/m/OverflowToolbar",
@@ -27,6 +28,7 @@ sap.ui.define(
     Filter,
     FilterOperator,
     Spreadsheet,
+    Fragment,
     Text,
     MessageToast,
     OverflowToolbar,
@@ -47,6 +49,8 @@ sap.ui.define(
 
     let _smartFilterBar = null;
     let _oConditionTypeData = null;
+
+    let _oViewImportHistory = null;
 
     // upload url
     const _sUrlCheck = "/sap/opu/odata/sap/ZOTC_PRICING_UPLOAD_SRV/FileSet";
@@ -86,6 +90,63 @@ sap.ui.define(
         _oView.setModel(_oViewModel, "oViewModel");
 
         _smartFilterBar = _oView.byId("smartFilterBar");
+      },
+
+      onViewImportHistory: function () {
+        // create dialog lazily
+        if (!_oViewImportHistory) {
+          Fragment.load({
+            id: _oView.getId(),
+            name: "oup.otc.pricingupload.view.fragment.ViewImportHistory",
+            controller: this,
+          }).then((oDialog) => {
+            _oView.addDependent(oDialog);
+            _oViewImportHistory = oDialog;
+
+            // open dialog
+            oDialog.open();
+          });
+        } else {
+          _oViewImportHistory.open();
+        }
+      },
+
+      onImportHistoryDialogConfirm: function (oEvent) {
+        // reset the filter
+        var oBinding = oEvent.getSource().getBinding("items");
+        oBinding.filter([]);
+
+        var aContexts = oEvent.getParameter("selectedContexts");
+        if (aContexts && aContexts.length > 0) {
+          var oContext = aContexts[0].getObject();
+
+          _sUuidUpload = oContext.FileId;
+
+          _oConditionTypeData = {
+            ConditionType: oContext.ConditionType,
+            TableName: oContext.TableName,
+          };
+
+          // load responsive table
+          this._loadResponseTable("ViewImportHistory" /* action */);
+        }
+      },
+
+      onImportHistoryDialogClose: function (oEvent) {
+        // reset the filter
+        var oBinding = oEvent.getSource().getBinding("items");
+        oBinding.filter([]);
+      },
+
+      onImportHistoryDialogSearch: function (oEvent) {
+        var sValue = oEvent.getParameter("value");
+        var oFilter = new Filter(
+          "ConditionType",
+          FilterOperator.Contains,
+          sValue
+        );
+        var oBinding = oEvent.getSource().getBinding("items");
+        oBinding.filter([oFilter]);
       },
 
       onAssignedFiltersChanged: function () {
@@ -245,18 +306,32 @@ sap.ui.define(
             let i = 0;
 
             if (iLen === 1) {
-              oFilter = new Filter(
-                sProperty,
-                FilterOperator.EQ,
-                aTokens[0].getKey()
-              );
+              if (sProperty === "LocalSalesStatus") {
+                oFilter = new Filter(
+                  sProperty,
+                  FilterOperator.EQ,
+                  aTokens[0].getText()
+                );
+              } else {
+                oFilter = new Filter(
+                  sProperty,
+                  FilterOperator.EQ,
+                  aTokens[0].getKey()
+                );
+              }
             } else if (iLen > 1) {
               let aFilterTokens = [];
 
               for (i; i < iLen; i++) {
-                aFilterTokens.push(
-                  new Filter(sProperty, FilterOperator.EQ, aTokens[i].getKey())
-                );
+                if (sProperty === "LocalSalesStatus") {
+                  aFilterTokens.push(
+                    new Filter(sProperty, FilterOperator.EQ, aTokens[i].getText())
+                  );
+                } else {
+                  aFilterTokens.push(
+                    new Filter(sProperty, FilterOperator.EQ, aTokens[i].getKey())
+                  );
+                }
               }
 
               // add the multi input tokens to a filter
@@ -501,8 +576,8 @@ sap.ui.define(
                 oError.responseText,
                 "text/xml"
               );
-              const sMessage = oXmlDoc.getElementsByTagName("message")[0]
-                .innerHTML;
+              const sMessage =
+                oXmlDoc.getElementsByTagName("message")[0].innerHTML;
 
               _oViewModel.setProperty("/messageVisible", true);
               _oViewModel.setProperty("/messageType", "Error");
@@ -578,12 +653,33 @@ sap.ui.define(
                     let oSettings, oSheet, dataSource;
 
                     // data source for the excel
-                    dataSource = aItemDataFields;
+                    let aItemDataFields1 = JSON.parse(
+                      JSON.stringify(aItemDataFields)
+                    );
+
+                    // clear data source
+                    // dataSource = [];
+
+                    // format data to remove description
+                    // for (let i = 0, iLen = aItemDataFields1.length; i < iLen; i++) {
+                    //   let object = aItemDataFields1[i];
+
+                    //   for (const property in object) {
+                    //     if (
+                    //       typeof object[property] === "string" ||
+                    //       object[property] instanceof String
+                    //     ) {
+                    //       object[property] = object[property].split("(")[0];
+                    //     }
+                    //   }
+
+                    //   dataSource.push(object);
+                    // }
 
                     oSettings = {
                       workbook: { columns: aColumnConfig },
-                      dataSource,
-                      fileName: `${_oConditionTypeData.ConditionType}_${_oConditionTypeData.TableName}`
+                      dataSource: aItemDataFields1,
+                      fileName: `${_oConditionTypeData.ConditionType}_${_oConditionTypeData.TableName}`,
                     };
 
                     oSheet = new Spreadsheet(oSettings);
@@ -761,6 +857,7 @@ sap.ui.define(
               case "Report":
                 break;
               case "Upload":
+              case "ViewImportHistory":
                 fnErrorRowIndex();
                 sMessageText = `Your application data is ready for import will create ${aItemDataFields.length} new items.
   
@@ -838,7 +935,20 @@ sap.ui.define(
             sMessage = oXmlDoc.getElementsByTagName("message")[0].innerHTML;
           }
 
-          _oViewModel.setProperty("/messageType", "Error");
+          let sMessageType = "Error";
+          const aSuccessMessage = [
+            "Upload is running in Background,click import history to check progress",
+            "No records exists",
+          ];
+          const aResponse = aSuccessMessage.filter(
+            (element) => element === sMessage
+          );
+
+          if (aResponse.length > 0) {
+            sMessageType = "Success";
+          }
+
+          _oViewModel.setProperty("/messageType", sMessageType);
           _oViewModel.setProperty("/messageText", sMessage);
           _oViewModel.setProperty("/messageVisible", true);
 
@@ -848,10 +958,16 @@ sap.ui.define(
         };
 
         // load filter data
-        const aFilters = this._getFilters();
+        let aFilters = [];
+
+        // load filters except view import history
+        if (sAction !== "ViewImportHistory") {
+          aFilters = this._getFilters();
+        }
 
         // guid
         if (
+          sAction === "ViewImportHistory" ||
           sAction === "Upload" ||
           sAction === "TestImport" ||
           sAction === "Import"

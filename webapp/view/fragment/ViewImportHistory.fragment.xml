@@ -1,0 +1,46 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <TableSelectDialog noDataText="No Import History Found" title="Select Import History" search=".onImportHistoryDialogSearch" confirm=".onImportHistoryDialogConfirm" cancel=".onImportHistoryDialogClose" items="{path: '/ZOTC_I_IMPORTHISTORY', sorter: {path: 'RecordDate', descending: true}}">
+        <ColumnListItem vAlign="Middle">
+            <cells>
+                <ObjectIdentifier title="{ConditionType}" />
+                <Text text="{TableName}" />
+                <Text text="{UserName}" />
+                <Text text="{path: 'RecordDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' }}" />
+                <Text text="{RecordTime}" />
+                <ObjectStatus text="{JobStatus}" state="Warning" />
+            </cells>
+        </ColumnListItem>
+        <columns>
+            <Column>
+                <header>
+                    <Text text="Condition type" />
+                </header>
+            </Column>
+            <Column minScreenWidth="Tablet" demandPopin="true">
+                <header>
+                    <Text text="Table Name" />
+                </header>
+            </Column>
+            <Column minScreenWidth="Tablet" demandPopin="true">
+                <header>
+                    <Text text="User Name" />
+                </header>
+            </Column>
+            <Column minScreenWidth="Tablet" demandPopin="true">
+                <header>
+                    <Text text="Record Date" />
+                </header>
+            </Column>
+            <Column minScreenWidth="Tablet" demandPopin="true">
+                <header>
+                    <Text text="Record Time" />
+                </header>
+            </Column>
+            <Column minScreenWidth="Tablet" demandPopin="true">
+                <header>
+                    <Text text="Job Status" />
+                </header>
+            </Column>
+        </columns>
+    </TableSelectDialog>
+</core:FragmentDefinition>
