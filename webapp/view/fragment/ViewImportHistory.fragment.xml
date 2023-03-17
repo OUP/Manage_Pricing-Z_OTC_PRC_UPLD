@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-    <TableSelectDialog noDataText="No Import History Found" title="Select Import History" search=".onImportHistoryDialogSearch" confirm=".onImportHistoryDialogConfirm" cancel=".onImportHistoryDialogClose" items="{path: '/ZOTC_I_IMPORTHISTORY', sorter: {path: 'RecordDate', descending: true}}">
+    <TableSelectDialog noDataText="No Import History Found" title="Select Import History" search=".onImportHistoryDialogSearch" confirm=".onImportHistoryDialogConfirm" cancel=".onImportHistoryDialogClose" items="{path: '/ZOTC_I_IMPORTHISTORY', sorter: [{path: 'RecordDate', descending: true}, {path: 'RecordTime', descending: true}]}">
         <ColumnListItem vAlign="Middle">
             <cells>
                 <ObjectIdentifier title="{ConditionType}" />
