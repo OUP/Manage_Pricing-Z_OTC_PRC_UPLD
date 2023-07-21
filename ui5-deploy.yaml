@@ -24,4 +24,4 @@ builder:
           name: Z_OTC_PRC_UPLD
           description: BAS - Application Deploy
           package: ZOTC
-          transport: S4DK916112
+          transport: S4DK917775

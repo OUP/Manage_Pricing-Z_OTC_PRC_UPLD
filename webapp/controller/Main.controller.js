@@ -325,11 +325,19 @@ sap.ui.define(
               for (i; i < iLen; i++) {
                 if (sProperty === "LocalSalesStatus") {
                   aFilterTokens.push(
-                    new Filter(sProperty, FilterOperator.EQ, aTokens[i].getText())
+                    new Filter(
+                      sProperty,
+                      FilterOperator.EQ,
+                      aTokens[i].getText()
+                    )
                   );
                 } else {
                   aFilterTokens.push(
-                    new Filter(sProperty, FilterOperator.EQ, aTokens[i].getKey())
+                    new Filter(
+                      sProperty,
+                      FilterOperator.EQ,
+                      aTokens[i].getKey()
+                    )
                   );
                 }
               }
@@ -847,9 +855,9 @@ sap.ui.define(
                   : `Upload valid data to Test Import.`;
               let sErrorIndexs = aErrorRowIndex.join(", ");
 
-              sMessageText = `Kinldy fix the errors in below rows ${sErrorIndexs}.
+              sMessageText = `Kindly fix the errors in below rows ${sErrorIndexs}.
   
-                                  ${sErrorMsgAction}`;
+                              ${sErrorMsgAction}`;
             };
 
             // on upload action
